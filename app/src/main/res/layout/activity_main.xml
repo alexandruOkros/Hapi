@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/silver"
+    android:orientation="vertical"
+    tools:context="alarm.hapialarm.MainActivity">
+
+  <!--  <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout> -->
+
+    <TextView
+        android:id="@+id/welcome_text"
+        android:layout_width="380dp"
+        android:layout_marginLeft="115dp"
+        android:layout_height="70dp"
+        android:text="Welcome!"
+        android:textSize="45dp"/>
+
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timePicker"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textSize="16dp"
+        android:id="@+id/set_alarm_button"
+        android:text="@string/set_alarm_button" />
+
+
+
+</LinearLayout>
