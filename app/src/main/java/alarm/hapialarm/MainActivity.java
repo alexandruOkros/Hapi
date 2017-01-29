@@ -59,8 +59,8 @@ public class MainActivity extends Activity {
                     calSet.add(Calendar.DATE, 1);
                 }
 
-                calSet.set(Calendar.MINUTE, 0);
-                calSet.set(Calendar.SECOND, 5);
+//                calSet.set(Calendar.MINUTE, 0);
+//                calSet.set(Calendar.SECOND, 5);
 //
 //                Toast.makeText(getBaseContext(), "Hour : " + String.valueOf(calSet.get(Calendar.HOUR))
 //                        + "\nMinute : " + String.valueOf(calSet.get(Calendar.MINUTE)) + "\n", Toast.LENGTH_SHORT).show();

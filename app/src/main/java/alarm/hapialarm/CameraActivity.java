@@ -329,7 +329,7 @@ public class CameraActivity extends Activity {
                         processImage.makeRequest(picture);
                     }
                 },
-                800
+                300
         );
     }
 
@@ -494,7 +494,7 @@ public class CameraActivity extends Activity {
 
         if(result == -2) {
             progress_text.setText("Have a good day :)!");
-            Toast.makeText(getBaseContext(), "Have a good day :).", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "Have a good day :)", Toast.LENGTH_LONG).show();
             ringtone.stop();
             this.finish();
         } else {
