@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
@@ -26,6 +28,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +48,7 @@ public class CameraActivity extends Activity {
     byte[] picture;
     final Boolean mutex = true;
     boolean sem = false;
+    ProgressBar progressBar = null;
 
 
     /**
@@ -147,14 +151,19 @@ public class CameraActivity extends Activity {
         setContentView(R.layout.activity_camera);
         progress_text = (TextView) findViewById(R.id.progress_text);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setProgressTintList(ColorStateList.valueOf(Color.WHITE));
+
         // Init.
         processImage = new ProcessImage(this);
         ch_seq = new ChallengeSequence();
 
         // Start algorithm.
 
-        progress_text.setText(ch_seq.getCurrentChallenge() + "   0/" +
-                ch_seq.getCurrentChallengeTotal());
+        progress_text.setText(ch_seq.getCurrentChallenge());
+               // + "   0/" +
+                //ch_seq.getCurrentChallengeTotal());
+        progressBar.setProgress(0);
         takePicture();
 
         mVisible = true;
@@ -500,9 +509,11 @@ public class CameraActivity extends Activity {
         } else {
             if (result == -1) result = 0;
 
-            progress_text.setText(ch_seq.getCurrentChallenge() + "   " + result + "/" +
-                    ch_seq.getCurrentChallengeTotal()
-            );
+            progress_text.setText(ch_seq.getCurrentChallenge());
+                            //+ "   " + result + "/" +
+                            //ch_seq.getCurrentChallengeTotal()
+           // );
+            progressBar.setProgress((int) ((100.0 * result) / ch_seq.getCurrentChallengeTotal()));
 
             takePicture();
         }

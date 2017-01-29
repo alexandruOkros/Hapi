@@ -19,7 +19,7 @@ public class ChallengeSequence {
         String names[] = {"happiness", "surprise", "sadness"};
         Random rand = new Random();
         int min = 2;
-        int max = 4;
+        int max = 3;
 
         // 4th.
         challenges.push(new Challenge("happiness", rand.nextInt(max - min + 1) + min));
@@ -38,12 +38,12 @@ public class ChallengeSequence {
         temp += names[id];
 
         // 1st.
-        last_id = id;
+        /*last_id = id;
         do {
             id = rand.nextInt(3);
         } while(id == last_id);
         challenges.push(new Challenge(names[id], rand.nextInt(max - min + 1) + min));
-        temp += names[id];
+        temp += names[id];*/
     }
 
     // Returns x for current progress, -1 for challenge success and -2 for sequence success.
