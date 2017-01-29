@@ -1,6 +1,8 @@
 package alarm.hapialarm;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,6 +27,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -34,7 +37,7 @@ import java.nio.ByteBuffer;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class CameraActivity extends AppCompatActivity {
+public class CameraActivity extends Activity {
     ProcessImage processImage = null;
     ChallengeSequence ch_seq = null;
     static Ringtone ringtone = null;
@@ -85,11 +88,7 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public void run() {
             // Delayed display of UI elements
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                //TODO: uncomment to display action bar!
-                //actionBar.show();
-            }
+
             mControlsView.setVisibility(View.VISIBLE);
         }
     };
@@ -124,6 +123,7 @@ public class CameraActivity extends AppCompatActivity {
             mCameraView.getHolder().removeCallback(mCameraView);
             mCamera.release();
         }
+
     }
 
     @Override
@@ -139,6 +139,11 @@ public class CameraActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
+        View decorView = getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
         setContentView(R.layout.activity_camera);
         progress_text = (TextView) findViewById(R.id.progress_text);
 
@@ -148,7 +153,7 @@ public class CameraActivity extends AppCompatActivity {
 
         // Start algorithm.
 
-        progress_text.setText("Challenge: " + ch_seq.getCurrentChallenge() + " with 0/" +
+        progress_text.setText(ch_seq.getCurrentChallenge() + "   0/" +
                 ch_seq.getCurrentChallengeTotal());
         takePicture();
 
@@ -212,10 +217,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private void hide() {
         // Hide UI first
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
+
         //mControlsView.setVisibility(View.GONE);
         mVisible = false;
 
@@ -327,9 +329,10 @@ public class CameraActivity extends AppCompatActivity {
                         processImage.makeRequest(picture);
                     }
                 },
-                1300
+                800
         );
     }
+
 
     private byte[] rotateYUV420Degree90(byte[] data, int imageWidth, int imageHeight)
     {
@@ -359,6 +362,57 @@ public class CameraActivity extends AppCompatActivity {
         return yuv;
     }
 
+    private static byte[] rotateYUV420Degree180(byte[] data, int imageWidth, int imageHeight) {
+        byte[] yuv = new byte[imageWidth * imageHeight * 3 / 2];
+        int i = 0;
+        int count = 0;
+        for (i = imageWidth * imageHeight - 1; i >= 0; i--) {
+            yuv[count] = data[i];
+            count++;
+        }
+        i = imageWidth * imageHeight * 3 / 2 - 1;
+        for (i = imageWidth * imageHeight * 3 / 2 - 1; i >= imageWidth
+                * imageHeight; i -= 2) {
+            yuv[count++] = data[i - 1];
+            yuv[count++] = data[i];
+        }
+        return yuv;
+    }
+
+    public static byte[] rotateYUV420Degree270(byte[] data, int imageWidth,
+                                               int imageHeight) {
+        byte[] yuv = new byte[imageWidth * imageHeight * 3 / 2];
+        int nWidth = 0, nHeight = 0;
+        int wh = 0;
+        int uvHeight = 0;
+        if (imageWidth != nWidth || imageHeight != nHeight) {
+            nWidth = imageWidth;
+            nHeight = imageHeight;
+            wh = imageWidth * imageHeight;
+            uvHeight = imageHeight >> 1;// uvHeight = height / 2
+        }
+        // ??Y
+        int k = 0;
+        for (int i = 0; i < imageWidth; i++) {
+            int nPos = 0;
+            for (int j = 0; j < imageHeight; j++) {
+                yuv[k] = data[nPos + i];
+                k++;
+                nPos += imageWidth;
+            }
+        }
+        for (int i = 0; i < imageWidth; i += 2) {
+            int nPos = wh;
+            for (int j = 0; j < uvHeight; j++) {
+                yuv[k] = data[nPos + i];
+                yuv[k + 1] = data[nPos + i + 1];
+                k += 2;
+                nPos += imageWidth;
+            }
+        }
+        return rotateYUV420Degree180(yuv, imageWidth, imageHeight);
+    }
+
     private Camera.PreviewCallback mPreviewCallback = new Camera.PreviewCallback() {
         @Override
         public void onPreviewFrame(byte[] data, Camera camera) {
@@ -368,22 +422,23 @@ public class CameraActivity extends AppCompatActivity {
                     int width = parameters.getPreviewSize().width;
                     int height = parameters.getPreviewSize().height;
 
-                    data = rotateYUV420Degree90(data, width, height);
+
+                    data = rotateYUV420Degree270(data, width, height);
                     int aux = width;
                     width = height;
                     height = aux;
-
-
-                    data = rotateYUV420Degree90(data, width, height);
-                    aux = width;
-                    width = height;
-                    height = aux;
-
-
-                    data = rotateYUV420Degree90(data, width, height);
-                    aux = width;
-                    width = height;
-                    height = aux;
+//
+//
+//                    data = rotateYUV420Degree90(data, width, height);
+//                    aux = width;
+//                    width = height;
+//                    height = aux;
+//
+//
+//                    data = rotateYUV420Degree90(data, width, height);
+//                    aux = width;
+//                    width = height;
+//                    height = aux;
 
                     YuvImage yuv = new YuvImage(data, parameters.getPreviewFormat(), width, height, null);
 
@@ -438,17 +493,17 @@ public class CameraActivity extends AppCompatActivity {
         }
 
         if(result == -2) {
-            progress_text.setText("Have a good day!");
+            progress_text.setText("Have a good day :)!");
+            Toast.makeText(getBaseContext(), "Have a good day :).", Toast.LENGTH_LONG).show();
             ringtone.stop();
+            this.finish();
         } else {
             if (result == -1) result = 0;
-            if(score != null)
-            progress_text.setText("Challenge: " + ch_seq.getCurrentChallenge() + " with " + result + "/" +
-                    ch_seq.getCurrentChallengeTotal() + score.toString());
-            else
-                progress_text.setText("Challenge: " + ch_seq.getCurrentChallenge() + " with " + result + "/" +
-                        ch_seq.getCurrentChallengeTotal());
-            // textView2.setText(score.toString());
+
+            progress_text.setText(ch_seq.getCurrentChallenge() + "   " + result + "/" +
+                    ch_seq.getCurrentChallengeTotal()
+            );
+
             takePicture();
         }
     }

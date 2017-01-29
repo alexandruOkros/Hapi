@@ -51,15 +51,15 @@ public class Score {
     }
 
     public boolean isHappiness() {
-        return (happiness > 0.5);
+        return (happiness > 0.3);
     }
 
     public boolean isSurprise() {
-        return (surprise > 0.3);
+        return (surprise > 0.2);
     }
 
     public boolean isSadness() {
-        return (sadness > 0.3);
+        return (sadness > 0.2);
     }
 
     public String toString() {

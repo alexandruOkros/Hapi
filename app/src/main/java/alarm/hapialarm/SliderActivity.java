@@ -1,5 +1,7 @@
 package alarm.hapialarm;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -9,10 +11,11 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
-public class SliderActivity extends AppCompatActivity {
+public class SliderActivity extends Activity {
 
     static Ringtone ringtone = null;
 
@@ -24,7 +27,15 @@ public class SliderActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+// Remember that you should never show the action bar if the
+// status bar is hidden, so hide that too if necessary.
         setContentView(R.layout.activity_slider);
+
+        View decorView = getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
 
         // Start ringtone.
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
@@ -56,6 +67,7 @@ public class SliderActivity extends AppCompatActivity {
         Intent i = new Intent(this, CameraActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startActivity(i);
+        this.finish();
     }
 
     @Override

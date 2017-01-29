@@ -66,7 +66,20 @@ public class ChallengeSequence {
     }
 
     public String getCurrentChallenge() {
-        return challenges.peek().getName();
+        String m = "";
+        switch (challenges.peek().getName()) {
+            case "happiness":
+                m = "Smile :)";
+                break;
+            case "sadness":
+                m = "Look sad :(";
+                break;
+            case "surprise":
+                m = "Be surprised :o";
+                break;
+        }
+
+        return m;
     }
 
     public int getCurrentChallengeTotal() {

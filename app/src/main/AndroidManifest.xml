@@ -10,6 +10,7 @@
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.REORDER_TASKS" />
 
     <application
@@ -39,7 +40,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_camera"
             android:theme="@style/FullscreenTheme" />
-        <activity android:name=".SliderActivity"></activity>
+        <activity android:name=".SliderActivity" />
     </application>
 
 </manifest>
