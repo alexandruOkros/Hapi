@@ -37,7 +37,7 @@ import java.nio.ByteBuffer;
 public class CameraActivity extends AppCompatActivity {
     ProcessImage processImage = null;
     ChallengeSequence ch_seq = null;
-    Ringtone ringtone = null;
+    static Ringtone ringtone = null;
     TextView progress_text = null;
     byte[] picture;
     final Boolean mutex = true;
@@ -48,7 +48,7 @@ public class CameraActivity extends AppCompatActivity {
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
      */
-    private static final boolean AUTO_HIDE = true;
+    private static final boolean AUTO_HIDE = false;
 
     /**
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
@@ -127,6 +127,11 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        // Do nothing.
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
@@ -136,12 +141,6 @@ public class CameraActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_camera);
         progress_text = (TextView) findViewById(R.id.progress_text);
-
-
-        // Start ringtone.
-        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        ringtone = RingtoneManager.getRingtone(this, uri);
-        ringtone.play();
 
         // Init.
         processImage = new ProcessImage(this);
@@ -217,7 +216,7 @@ public class CameraActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
-        mControlsView.setVisibility(View.GONE);
+        //mControlsView.setVisibility(View.GONE);
         mVisible = false;
 
         // Schedule a runnable to remove the status and navigation bar after a delay
