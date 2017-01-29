@@ -22,6 +22,7 @@ import java.util.Map;
 public class ProcessImage {
     private RequestQueue queue = null;
     private CameraActivity context = null;
+    private int step = 1;
 
     public ProcessImage(CameraActivity ctx) {
         context = ctx;
@@ -44,12 +45,12 @@ public class ProcessImage {
                 // TODO Auto-generated method stub
                 // Ignore for now.
                 // textView.setText(error.getMessage());
-                Log.d("ERROR", ">>>>>>>>>>>>>>>>>>>>>>>>>   " + error.getMessage());
+                Log.d("ERROR", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>   " + error.getMessage());
                 context.processScore(null);
             }
         };
         String url = "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize";
-        final String cog_key = "779ae3bac8a64320b036341f59f2aaa1";
+        final String cog_key[] = {"779ae3bac8a64320b036341f59f2aaa1", "969b41bd31834c8380093ed211e33eea"};
 
         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, url,
                 (JSONObject) null, respListener, errorListener) {
@@ -57,7 +58,8 @@ public class ProcessImage {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 // headers.put("Content-Type", "application/octet-stream");
-                headers.put("Ocp-Apim-Subscription-Key", cog_key);
+                headers.put("Ocp-Apim-Subscription-Key", cog_key[step]);
+                step = 1 - step;
                 return headers;
             }
 

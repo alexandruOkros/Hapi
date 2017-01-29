@@ -328,7 +328,7 @@ public class CameraActivity extends AppCompatActivity {
                         processImage.makeRequest(picture);
                     }
                 },
-                1500
+                1300
         );
     }
 

@@ -23,29 +23,17 @@
 
     </android.support.design.widget.AppBarLayout> -->
 
-    <TextView
-        android:id="@+id/welcome_text"
-        android:layout_width="380dp"
-        android:layout_marginLeft="115dp"
-        android:layout_height="70dp"
-        android:text="Welcome!"
-        android:textSize="45dp"/>
-
     <TimePicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/timePicker"
         android:layout_gravity="center_horizontal" />
 
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textSize="16dp"
+        android:text="New ToggleButton"
         android:id="@+id/set_alarm_button"
-        android:text="@string/set_alarm_button" />
-
-
-
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

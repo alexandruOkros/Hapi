@@ -61,16 +61,15 @@ public class MainActivity extends Activity {
 
                 calSet.set(Calendar.MINUTE, 0);
                 calSet.set(Calendar.SECOND, 5);
-
-                Toast.makeText(getBaseContext(), "Hour : " + String.valueOf(calSet.get(Calendar.HOUR))
-                        + "\nMinute : " + String.valueOf(calSet.get(Calendar.MINUTE)) + "\n", Toast.LENGTH_SHORT).show();
+//
+//                Toast.makeText(getBaseContext(), "Hour : " + String.valueOf(calSet.get(Calendar.HOUR))
+//                        + "\nMinute : " + String.valueOf(calSet.get(Calendar.MINUTE)) + "\n", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getBaseContext(), SetAlarmReceiver.class);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getBaseContext(), 1, intent, 0);
 
                 AlarmManager alarmManager = (AlarmManager) getBaseContext().getSystemService(Context.ALARM_SERVICE);
 
-                Log.v("hahaha", "hihihi");
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calSet.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
                 Toast.makeText(getBaseContext(), "Alarm Set.", Toast.LENGTH_LONG).show();
             }
